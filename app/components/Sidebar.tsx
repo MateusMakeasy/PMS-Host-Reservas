@@ -28,7 +28,7 @@ export default function Sidebar() {
                     <span className="font-medium">Home</span>
                 </Link>
 
-                <Link href="#" className={`sidebar-link ${isActive('/indicadores')}`}>
+                <Link href="/inicio" className={`sidebar-link ${isActive('/indicadores')}`}>
                     <span className="material-symbols-outlined mr-3">bar_chart</span>
                     <span className="font-medium">Indicadores</span>
                 </Link>
@@ -64,24 +64,26 @@ export default function Sidebar() {
                 </Link>
 
                 <div className="pt-4 mt-4 border-t border-white/10">
-                    <Link href="#" className={`sidebar-link ${isActive('/configuracoes')}`}>
+                    <Link href="/configuracoes" className={`sidebar-link ${isActive('/configuracoes')}`}>
                         <span className="material-symbols-outlined mr-3">settings</span>
                         <span className="font-medium">Configurações</span>
                     </Link>
                 </div>
             </nav>
 
-            <div className="p-4 bg-white/5 mx-4 mb-4 rounded-lg">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-brand-teal flex items-center justify-center text-white font-bold text-xs">
-                        MP
-                    </div>
-                    <div className="overflow-hidden">
-                        <p className="text-sm font-medium truncate">Minha Pousada</p>
-                        <p className="text-xs text-slate-400 truncate">admin@hospedin.com</p>
+            <Link href="/configuracoes">
+                <div className="p-4 bg-white/5 mx-4 mb-4 rounded-lg hover:bg-white/10 transition-colors cursor-pointer">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-brand-teal flex items-center justify-center text-white font-bold text-xs">
+                            MP
+                        </div>
+                        <div className="overflow-hidden">
+                            <p className="text-sm font-medium truncate">Minha Pousada</p>
+                            <p className="text-xs text-slate-400 truncate">admin@hospedin.com</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Link>
         </aside>
     );
 }

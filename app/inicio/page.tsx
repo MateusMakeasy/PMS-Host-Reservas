@@ -88,7 +88,7 @@ export default function DashboardPage() {
                     <div className="card p-6">
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-lg font-bold text-slate-800">Fluxo de Reservas (Próximos 7 dias)</h3>
-                            <button className="text-sm text-brand-blue font-medium hover:underline">Ver relatório completo</button>
+                            <Link href="/reservas" className="text-sm text-brand-blue font-medium hover:underline">Ver relatório completo</Link>
                         </div>
 
                         <div className="h-64 flex items-end justify-between gap-2 px-4 border-b border-l border-slate-100 relative">
