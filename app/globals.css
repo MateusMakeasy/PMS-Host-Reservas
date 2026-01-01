@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased bg-background-light text-slate-700;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold text-slate-800;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-teal text-white font-medium py-2 px-4 rounded-md shadow-sm hover:bg-opacity-90 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-brand-blue text-white font-medium py-2 px-4 rounded-md shadow-sm hover:bg-opacity-90 transition-colors;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-slate-200;
+  }
+
+  .sidebar-link {
+    @apply flex items-center px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-white transition-colors rounded-r-md border-l-4 border-transparent;
+  }
+
+  .sidebar-link-active {
+    @apply bg-[#34495e] text-white border-brand-teal;
+  }
+}

@@ -1,134 +1,125 @@
-import Sidebar from '../../components/Sidebar';
+import React from 'react';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 
 export default function ReservasPage() {
     return (
-        <div className="flex bg-gray-100 text-gray-800 min-h-screen font-display">
+        <div className="bg-background-light min-h-screen flex font-sans">
             <Sidebar />
-            <main className="flex-1 p-8 ml-64 overflow-y-auto bg-white min-h-screen">
-                <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-3xl font-bold text-gray-800">Gerenciamento de Reservas</h2>
-                    <div className="flex items-center space-x-4">
-                        <div className="relative">
-                            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-                            <input
-                                className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-[#3498DB] focus:border-[#3498DB]"
-                                placeholder="Buscar hóspede ou quarto..."
-                                type="text"
-                            />
+            <main className="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
+                <Header title="Gerenciamento de Reservas" breadcrumb="Reservas" />
+
+                <div className="flex-1 flex flex-col p-8 overflow-y-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <div className="flex items-center gap-4">
+                            <div className="relative">
+                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                                <input
+                                    type="text"
+                                    placeholder="Buscar hóspede, quarto..."
+                                    className="pl-10 pr-4 py-2 border-slate-200 rounded-md text-sm focus:ring-brand-teal focus:border-brand-teal w-80 shadow-sm"
+                                />
+                            </div>
+
+                            <select className="pl-3 pr-10 py-2 border-slate-200 rounded-md text-sm focus:ring-brand-teal focus:border-brand-teal shadow-sm bg-white text-slate-600">
+                                <option>Todos os Status</option>
+                                <option>Confirmada</option>
+                                <option>Hospedado</option>
+                                <option>Cancelada</option>
+                            </select>
                         </div>
-                        <button className="bg-[#3498DB] text-white font-medium py-2 px-4 rounded-lg flex items-center shadow-md hover:bg-opacity-90 transition-colors">
-                            <span className="material-symbols-outlined mr-2">add</span>
-                            Nova Reserva
+
+                        <button className="btn-primary flex items-center gap-2">
+                            <span className="material-symbols-outlined text-xl">add_circle</span>
+                            <span>Nova Reserva</span>
                         </button>
                     </div>
-                </div>
-                <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="border-b-2 border-gray-200">
-                                <tr>
-                                    <th className="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Hóspede</th>
-                                    <th className="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Quarto</th>
-                                    <th className="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Check-in</th>
-                                    <th className="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Check-out</th>
-                                    <th className="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Ações</th>
+
+                    <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-slate-50 border-b border-slate-200">
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Hóspede</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Acomodação</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Check-in</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Check-out</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Ações</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                <tr>
-                                    <td className="p-4 text-gray-900">João Silva</td>
-                                    <td className="p-4 text-gray-500">101</td>
-                                    <td className="p-4 text-gray-500">2024-08-01</td>
-                                    <td className="p-4 text-gray-500">2024-08-05</td>
-                                    <td className="p-4">
-                                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Confirmada</span>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="flex space-x-2">
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">visibility</span></button>
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">edit</span></button>
-                                            <button className="text-gray-500 hover:text-red-500 transition-colors"><span className="material-symbols-outlined">delete</span></button>
+                            <tbody className="divide-y divide-slate-100">
+                                <tr className="hover:bg-slate-50 transition-colors group">
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600">JS</div>
+                                            <div>
+                                                <p className="font-medium text-slate-800">João Silva</p>
+                                                <p className="text-xs text-slate-500">#12345</p>
+                                            </div>
                                         </div>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">101 - Standard</td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">20/05/2024</td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">25/05/2024</td>
+                                    <td className="px-6 py-4">
+                                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">Confirmada</span>
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        <button className="text-slate-400 hover:text-brand-teal p-1"><span className="material-symbols-outlined">visibility</span></button>
+                                        <button className="text-slate-400 hover:text-brand-blue p-1"><span className="material-symbols-outlined">edit</span></button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td className="p-4 text-gray-900">Maria Oliveira</td>
-                                    <td className="p-4 text-gray-500">205</td>
-                                    <td className="p-4 text-gray-500">2024-08-03</td>
-                                    <td className="p-4 text-gray-500">2024-08-07</td>
-                                    <td className="p-4">
-                                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Checked-in</span>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="flex space-x-2">
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">visibility</span></button>
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">edit</span></button>
-                                            <button className="text-gray-500 hover:text-red-500 transition-colors"><span className="material-symbols-outlined">delete</span></button>
+                                <tr className="hover:bg-slate-50 transition-colors group">
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600">MO</div>
+                                            <div>
+                                                <p className="font-medium text-slate-800">Maria Oliveira</p>
+                                                <p className="text-xs text-slate-500">#12346</p>
+                                            </div>
                                         </div>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">105 - Duplo</td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">22/05/2024</td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">24/05/2024</td>
+                                    <td className="px-6 py-4">
+                                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">Check-in</span>
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        <button className="text-slate-400 hover:text-brand-teal p-1"><span className="material-symbols-outlined">visibility</span></button>
+                                        <button className="text-slate-400 hover:text-brand-blue p-1"><span className="material-symbols-outlined">edit</span></button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td className="p-4 text-gray-900">Carlos Pereira</td>
-                                    <td className="p-4 text-gray-500">302</td>
-                                    <td className="p-4 text-gray-500">2024-08-04</td>
-                                    <td className="p-4 text-gray-500">2024-08-10</td>
-                                    <td className="p-4">
-                                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Pendente</span>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="flex space-x-2">
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">visibility</span></button>
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">edit</span></button>
-                                            <button className="text-gray-500 hover:text-red-500 transition-colors"><span className="material-symbols-outlined">delete</span></button>
+                                <tr className="hover:bg-slate-50 transition-colors group">
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-600">CP</div>
+                                            <div>
+                                                <p className="font-medium text-slate-800">Carlos Pereira</p>
+                                                <p className="text-xs text-slate-500">#12347</p>
+                                            </div>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td className="p-4 text-gray-900">Ana Souza</td>
-                                    <td className="p-4 text-gray-500">103</td>
-                                    <td className="p-4 text-gray-500">2024-07-28</td>
-                                    <td className="p-4 text-gray-500">2024-08-02</td>
-                                    <td className="p-4">
-                                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Checked-out</span>
+                                    <td className="px-6 py-4 text-sm text-slate-600">110 - Duplo</td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">25/05/2024</td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">28/05/2024</td>
+                                    <td className="px-6 py-4">
+                                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-200">Pendente</span>
                                     </td>
-                                    <td className="p-4">
-                                        <div className="flex space-x-2">
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">visibility</span></button>
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">edit</span></button>
-                                            <button className="text-gray-500 hover:text-red-500 transition-colors"><span className="material-symbols-outlined">delete</span></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="p-4 text-gray-900">Pedro Costa</td>
-                                    <td className="p-4 text-gray-500">401</td>
-                                    <td className="p-4 text-gray-500">2024-08-15</td>
-                                    <td className="p-4 text-gray-500">2024-08-20</td>
-                                    <td className="p-4">
-                                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Cancelada</span>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="flex space-x-2">
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">visibility</span></button>
-                                            <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">edit</span></button>
-                                            <button className="text-gray-500 hover:text-red-500 transition-colors"><span className="material-symbols-outlined">delete</span></button>
-                                        </div>
+                                    <td className="px-6 py-4 text-right">
+                                        <button className="text-slate-400 hover:text-brand-teal p-1"><span className="material-symbols-outlined">visibility</span></button>
+                                        <button className="text-slate-400 hover:text-brand-blue p-1"><span className="material-symbols-outlined">edit</span></button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div className="p-4 flex justify-between items-center border-t border-gray-200 text-sm text-gray-500">
-                        <span>Mostrando 1-5 de 50 resultados</span>
-                        <div className="flex items-center space-x-2">
-                            <button className="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50" disabled><span className="material-symbols-outlined text-base">chevron_left</span></button>
-                            <button className="px-3 py-1 rounded-lg bg-[#3498DB] text-white">1</button>
-                            <button className="px-3 py-1 rounded-lg hover:bg-gray-100">2</button>
-                            <button className="px-3 py-1 rounded-lg hover:bg-gray-100">3</button>
-                            <span>...</span>
-                            <button className="px-3 py-1 rounded-lg hover:bg-gray-100">10</button>
-                            <button className="p-2 rounded-lg hover:bg-gray-100"><span className="material-symbols-outlined text-base">chevron_right</span></button>
+
+                        <div className="px-6 py-4 border-t border-slate-200 flex justify-between items-center bg-slate-50">
+                            <span className="text-sm text-slate-500">Mostrando 3 de 45 reservas</span>
+                            <div className="flex gap-2">
+                                <button className="px-3 py-1 rounded bg-white border border-slate-200 text-slate-400 text-sm hover:bg-slate-100" disabled>Anterior</button>
+                                <button className="px-3 py-1 rounded bg-white border border-slate-200 text-slate-600 text-sm hover:bg-slate-100">Próximo</button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,14 +1,65 @@
-import Sidebar from '../../components/Sidebar';
+import React from 'react';
 
 export default function TransacoesPage() {
     return (
-        <div className="font-display bg-[#f6f7f8] min-h-screen flex flex-row">
-            {/* Import Manrope font locally for this page if not available globally */}
-            <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
-            <Sidebar />
-
-            <main className="flex-1 flex flex-col p-8 bg-white ml-64 font-['Manrope']">
+        <div className="font-display bg-background-light flex h-auto min-h-screen w-full flex-row">
+            <aside className="w-64 flex-shrink-0 bg-[#232a3b] text-white flex flex-col">
+                <div className="p-6 flex items-center gap-3">
+                    <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'wght' 400, 'FILL' 1" }}>cottage</span>
+                    <span className="text-2xl font-bold">Hospedin</span>
+                </div>
+                <div className="flex-grow px-4">
+                    <p className="text-xs font-bold uppercase text-gray-400 mb-4 ml-4">Menu Principal</p>
+                    <nav className="flex flex-col gap-1">
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="/inicio">
+                            <span className="material-symbols-outlined">home</span>
+                            <p className="text-sm font-medium">Home</p>
+                        </a>
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="#">
+                            <span className="material-symbols-outlined">bar_chart</span>
+                            <p className="text-sm font-medium">Indicadores</p>
+                        </a>
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="/mapa">
+                            <span className="material-symbols-outlined">map</span>
+                            <p className="text-sm font-medium">Mapa</p>
+                        </a>
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="/reservas">
+                            <span className="material-symbols-outlined">calendar_month</span>
+                            <p className="text-sm font-medium">Reservas</p>
+                        </a>
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="/hospedes">
+                            <span className="material-symbols-outlined">group</span>
+                            <p className="text-sm font-medium">Hóspedes</p>
+                        </a>
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="/day-use">
+                            <span className="material-symbols-outlined">wb_sunny</span>
+                            <p className="text-sm font-medium">Day Use</p>
+                        </a>
+                        <a className="active flex items-center gap-3 pl-3.5 pr-4 py-2.5 rounded-lg bg-[#4f587a] text-white transition-colors border-l-2 border-[#137fec]" href="/transacoes">
+                            <span className="material-symbols-outlined">receipt_long</span>
+                            <p className="text-sm font-medium">Transações</p>
+                        </a>
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="/meu-caixa">
+                            <span className="material-symbols-outlined">point_of_sale</span>
+                            <p className="text-sm font-medium">Meu Caixa</p>
+                        </a>
+                        <a className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-300 hover:bg-[#3a415a] hover:text-white transition-colors" href="#">
+                            <span className="material-symbols-outlined">settings</span>
+                            <p className="text-sm font-medium">Configurações</p>
+                        </a>
+                    </nav>
+                </div>
+                <div className="p-4">
+                    <div className="border-t border-gray-700 pt-4 flex items-center gap-3">
+                        <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Hotel Admin profile picture" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5GI7JWJ5n1F53OvuZ3kLn7WoqgPldW5EPH8elxB4AE56GH3BoZvYPQiKrKsKYcwPAfFEU7Zib3v5hsfPC6qAP7IYX0_pYB8oEW4nuyNFmh27SPXPlm5KxTNzSvEe1TtpBC3nPuZrJjEJeLj-LIjN5xAqq8y8OdAejiUdK_qSQCYiap3w2b5CEn_LF0PrpM6jbKmS6KnSXfcWXkP5OSxgFMhyyEk68L8FGUlgYLmEcrdDicIBKLoLHZ_YvEJdN9wMt5WA68R-Mrwg")' }}></div>
+                        <div className="flex flex-col">
+                            <h1 className="text-white text-sm font-medium leading-normal">Hotel Admin</h1>
+                            <p className="text-gray-400 text-xs font-normal leading-normal">admin@hotel.com</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <main className="flex-1 flex flex-col p-8 bg-white">
                 <div className="w-full max-w-7xl mx-auto">
                     <div className="flex flex-wrap justify-between gap-4 items-center mb-6">
                         <p className="text-gray-800 text-4xl font-black leading-tight tracking-[-0.033em]">Gerenciamento de Transações</p>
