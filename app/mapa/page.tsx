@@ -98,7 +98,11 @@ export default function MapaPage() {
     const [reservations, setReservations] = useState<Reservation[]>(INITIAL_RESERVATIONS);
     const [hoveredRes, setHoveredRes] = useState<string | null>(null);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+
+    // Modal State
     const [selectedRes, setSelectedRes] = useState<Reservation | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editForm, setEditForm] = useState<Reservation | null>(null);
 
     // Drag State
     const [draggingRes, setDraggingRes] = useState<string | null>(null);
@@ -133,6 +137,7 @@ export default function MapaPage() {
     const handleToday = () => setCurrentDate(new Date());
 
     const handleMouseDown = (e: React.MouseEvent, res: Reservation) => {
+        if (e.button !== 0) return; // Only Main Button
         e.stopPropagation(); // Prevent opening modal
         e.preventDefault();
 
@@ -166,6 +171,13 @@ export default function MapaPage() {
                 const deltaX = e.clientX - dragRef.current.initialX;
                 const deltaY = e.clientY - dragRef.current.initialY;
 
+                // Simple threshold to prevent micro-moves interpreting as drags
+                if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) {
+                    setDraggingRes(null);
+                    dragRef.current = null;
+                    return;
+                }
+
                 const dayDiff = Math.round(deltaX / CELL_WIDTH);
                 const rowDiff = Math.round(deltaY / ROW_HEIGHT);
 
@@ -181,12 +193,16 @@ export default function MapaPage() {
                             const newEnd = addDays(newStart, duration);
 
                             // Update Room
-                            // Find current room index
+                            // Ensure flatRooms is available and has items
+                            if (!flatRooms || flatRooms.length === 0) return r;
+
                             const currentRoomIndex = flatRooms.findIndex(room => room.id === dragRef.current!.startRoomId);
                             let newRoomId = r.roomId;
                             if (currentRoomIndex !== -1) {
                                 const newIndex = Math.max(0, Math.min(flatRooms.length - 1, currentRoomIndex + rowDiff));
-                                newRoomId = flatRooms[newIndex].id;
+                                if (flatRooms[newIndex]) {
+                                    newRoomId = flatRooms[newIndex].id;
+                                }
                             }
 
                             return {
@@ -228,13 +244,23 @@ export default function MapaPage() {
 
     const handleReservationClick = (e: React.MouseEvent, res: Reservation) => {
         e.stopPropagation();
-        if (!draggingRes) setSelectedRes(res);
+        // Prevent click if we just finished dragging (drag check handled in mouseup/down logic mostly, but simple state check helps)
+        if (!draggingRes) {
+            setSelectedRes(res);
+            setIsEditing(false);
+            setEditForm(res);
+        }
+    };
+
+    const handleSaveEdit = () => {
+        if (editForm && selectedRes) {
+            setReservations(prev => prev.map(r => r.id === selectedRes.id ? editForm : r));
+            setSelectedRes(null);
+            setIsEditing(false);
+        }
     };
 
     const getReservationStyle = (res: Reservation) => {
-        // ... logic mostly same, but need to account for dragging if specific reservation is being moved
-        // Visualization of dragging is tricky with React render cycle, usually we use transform: translate on the active element
-
         const startDate = new Date(currentDate.toISOString().split('T')[0]);
         const checkIn = new Date(res.checkIn);
         const checkOut = new Date(res.checkOut);
@@ -247,20 +273,21 @@ export default function MapaPage() {
         const left = diffDays * CELL_WIDTH;
         const width = durationDays * CELL_WIDTH;
 
-        // Apply drag transform
         let transform = 'none';
         let zIndex = 10;
         let opacity = 1;
+        let boxShadow = 'none';
 
-        if (draggingRes === res.id) {
+        if (draggingRes === res.id && dragRef.current) {
             zIndex = 50;
-            const deltaX = dragCurrent.x - dragRef.current!.initialX;
-            const deltaY = dragCurrent.y - dragRef.current!.initialY;
+            const deltaX = dragCurrent.x - dragRef.current.initialX;
+            const deltaY = dragCurrent.y - dragRef.current.initialY;
             transform = `translate(${deltaX}px, ${deltaY}px)`;
             opacity = 0.9;
+            boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
         }
 
-        return { left: `${left}px`, width: `${width}px`, transform, zIndex, opacity };
+        return { left: `${left}px`, width: `${width}px`, transform, zIndex, opacity, boxShadow };
     };
 
     return (
@@ -373,7 +400,14 @@ export default function MapaPage() {
                                                                 onClick={(e) => handleReservationClick(e, res)}
                                                                 onMouseEnter={(e) => handleMouseEnter(e, res.id)}
                                                                 onMouseLeave={handleMouseLeave}
-                                                                style={{ left: pos.left, width: pos.width, transform: pos.transform, zIndex: pos.zIndex, opacity: pos.opacity }}
+                                                                style={{
+                                                                    left: pos.left,
+                                                                    width: pos.width,
+                                                                    transform: pos.transform,
+                                                                    zIndex: pos.zIndex,
+                                                                    opacity: pos.opacity,
+                                                                    boxShadow: pos.boxShadow
+                                                                }}
                                                                 className={`absolute top-2 bottom-2 rounded-md shadow-sm border-l-4 ${colors.bg} ${colors.border} ${colors.text} px-2 py-0.5 text-xs font-semibold cursor-pointer hover:brightness-110 hover:shadow-md transition-shadow overflow-hidden whitespace-nowrap`}
                                                             >
                                                                 <div className="flex flex-col justify-center h-full leading-tight pointer-events-none">
@@ -420,13 +454,13 @@ export default function MapaPage() {
                 )}
 
                 {/* --- Edit Popup (Modal) --- */}
-                {selectedRes && (
+                {selectedRes && editForm && (
                     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/20 backdrop-blur-sm" onClick={() => setSelectedRes(null)}>
                         <div className="bg-white rounded-lg shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200" onClick={e => e.stopPropagation()}>
                             {/* Popup Header */}
                             <div className="bg-brand-teal p-4 flex justify-between items-start text-white">
                                 <div>
-                                    <h3 className="text-lg font-bold">Detalhes da Reserva</h3>
+                                    <h3 className="text-lg font-bold">{isEditing ? 'Editar Reserva' : 'Detalhes da Reserva'}</h3>
                                     <p className="text-teal-100 text-sm">#{selectedRes.id}</p>
                                 </div>
                                 <button onClick={() => setSelectedRes(null)} className="text-teal-100 hover:text-white transition-colors">
@@ -436,53 +470,121 @@ export default function MapaPage() {
 
                             {/* Popup Body */}
                             <div className="p-6">
-                                <div className="flex items-start justify-between mb-6">
-                                    <div>
-                                        <h2 className="text-xl font-bold text-slate-800 mb-1">{selectedRes.guestName}</h2>
-                                        <p className="text-sm text-slate-500 flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-sm">mail</span>
-                                            {selectedRes.email || 'Email não informado'}
-                                        </p>
-                                    </div>
-                                    <div className={`px-3 py-1 rounded text-xs font-bold uppercase ${getStatusColor(selectedRes.status).bg} ${getStatusColor(selectedRes.status).text}`}>
-                                        {selectedRes.status}
-                                    </div>
-                                </div>
+                                {isEditing ? (
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Hóspede</label>
+                                            <input
+                                                type="text"
+                                                value={editForm.guestName}
+                                                onChange={(e) => setEditForm({ ...editForm, guestName: e.target.value })}
+                                                className="w-full border border-slate-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Check-in</label>
+                                                <input
+                                                    type="date"
+                                                    value={editForm.checkIn}
+                                                    onChange={(e) => setEditForm({ ...editForm, checkIn: e.target.value })}
+                                                    className="w-full border border-slate-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Check-out</label>
+                                                <input
+                                                    type="date"
+                                                    value={editForm.checkOut}
+                                                    onChange={(e) => setEditForm({ ...editForm, checkOut: e.target.value })}
+                                                    className="w-full border border-slate-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Valor (R$)</label>
+                                            <input
+                                                type="number"
+                                                value={editForm.price}
+                                                onChange={(e) => setEditForm({ ...editForm, price: Number(e.target.value) })}
+                                                className="w-full border border-slate-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Status</label>
+                                            <select
+                                                value={editForm.status}
+                                                onChange={(e) => setEditForm({ ...editForm, status: e.target.value as any })}
+                                                className="w-full border border-slate-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+                                            >
+                                                <option value="confirmado">Confirmado</option>
+                                                <option value="hospedado">Hospedado</option>
+                                                <option value="pendente">Pendente</option>
+                                                <option value="limpeza">Em Limpeza</option>
+                                                <option value="bloqueado">Bloqueado</option>
+                                            </select>
+                                        </div>
 
-                                <div className="grid grid-cols-2 gap-4 mb-6">
-                                    <div className="bg-slate-50 p-3 rounded border border-slate-100">
-                                        <label className="text-[10px] font-bold uppercase text-slate-400 block mb-1">Check-in</label>
-                                        <div className="font-semibold text-slate-700">{new Date(selectedRes.checkIn).toLocaleDateString('pt-BR')}</div>
-                                        <div className="text-xs text-slate-500">14:00</div>
+                                        <div className="flex gap-2 pt-2">
+                                            <button onClick={() => setIsEditing(false)} className="flex-1 border border-slate-300 text-slate-600 py-2 rounded-lg font-bold hover:bg-slate-50 transition-colors">
+                                                Cancelar
+                                            </button>
+                                            <button onClick={handleSaveEdit} className="flex-1 bg-brand-teal text-white py-2 rounded-lg font-bold hover:bg-teal-600 transition-colors">
+                                                Salvar Alterações
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="bg-slate-50 p-3 rounded border border-slate-100">
-                                        <label className="text-[10px] font-bold uppercase text-slate-400 block mb-1">Check-out</label>
-                                        <div className="font-semibold text-slate-700">{new Date(selectedRes.checkOut).toLocaleDateString('pt-BR')}</div>
-                                        <div className="text-xs text-slate-500">12:00</div>
-                                    </div>
-                                </div>
+                                ) : (
+                                    <>
+                                        <div className="flex items-start justify-between mb-6">
+                                            <div>
+                                                <h2 className="text-xl font-bold text-slate-800 mb-1">{selectedRes.guestName}</h2>
+                                                <p className="text-sm text-slate-500 flex items-center gap-1">
+                                                    <span className="material-symbols-outlined text-sm">mail</span>
+                                                    {selectedRes.email || 'Email não informado'}
+                                                </p>
+                                            </div>
+                                            <div className={`px-3 py-1 rounded text-xs font-bold uppercase ${getStatusColor(selectedRes.status).bg} ${getStatusColor(selectedRes.status).text}`}>
+                                                {selectedRes.status}
+                                            </div>
+                                        </div>
 
-                                <div className="space-y-2 mb-6">
-                                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                                        <span className="text-sm text-slate-500">Valor Total</span>
-                                        <span className="font-bold text-slate-800">R$ {selectedRes.price?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
-                                        <span className="text-sm text-slate-500">Origem</span>
-                                        <span className="font-medium text-slate-700 flex items-center gap-1">
-                                            <span className="material-symbols-outlined text-sm">public</span> {selectedRes.origin || 'Direta'}
-                                        </span>
-                                    </div>
-                                </div>
+                                        <div className="grid grid-cols-2 gap-4 mb-6">
+                                            <div className="bg-slate-50 p-3 rounded border border-slate-100">
+                                                <label className="text-[10px] font-bold uppercase text-slate-400 block mb-1">Check-in</label>
+                                                <div className="font-semibold text-slate-700">{new Date(selectedRes.checkIn).toLocaleDateString('pt-BR')}</div>
+                                                <div className="text-xs text-slate-500">14:00</div>
+                                            </div>
+                                            <div className="bg-slate-50 p-3 rounded border border-slate-100">
+                                                <label className="text-[10px] font-bold uppercase text-slate-400 block mb-1">Check-out</label>
+                                                <div className="font-semibold text-slate-700">{new Date(selectedRes.checkOut).toLocaleDateString('pt-BR')}</div>
+                                                <div className="text-xs text-slate-500">12:00</div>
+                                            </div>
+                                        </div>
 
-                                <div className="flex gap-2">
-                                    <button className="flex-1 bg-brand-teal text-white py-2 rounded-lg font-bold hover:bg-teal-600 transition-colors">
-                                        Editar Reserva
-                                    </button>
-                                    <button className="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 font-medium hover:bg-slate-50 transition-colors" title="Mais opções">
-                                        <span className="material-symbols-outlined">more_horiz</span>
-                                    </button>
-                                </div>
+                                        <div className="space-y-2 mb-6">
+                                            <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                                                <span className="text-sm text-slate-500">Valor Total</span>
+                                                <span className="font-bold text-slate-800">R$ {selectedRes.price?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                                                <span className="text-sm text-slate-500">Origem</span>
+                                                <span className="font-medium text-slate-700 flex items-center gap-1">
+                                                    <span className="material-symbols-outlined text-sm">public</span> {selectedRes.origin || 'Direta'}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-2">
+                                            <button onClick={() => setIsEditing(true)} className="flex-1 bg-brand-teal text-white py-2 rounded-lg font-bold hover:bg-teal-600 transition-colors">
+                                                Editar Reserva
+                                            </button>
+                                            <button className="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 font-medium hover:bg-slate-50 transition-colors" title="Mais opções">
+                                                <span className="material-symbols-outlined">more_horiz</span>
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
 
                             {/* Popup Footer Links */}
@@ -494,8 +596,6 @@ export default function MapaPage() {
                         </div>
                     </div>
                 )}
-
-
             </main>
         </div>
     );
