@@ -28,7 +28,7 @@ export default function InicioPage() {
                     <div className="flex flex-wrap items-center gap-2 mb-6">
                         <button className="px-3 py-1 text-sm rounded-md bg-slate-200 text-slate-800">todos <span className="ml-1 px-1.5 py-0.5 text-xs rounded bg-slate-300">10</span></button>
                         <button className="px-3 py-1 text-sm rounded-md bg-emerald-100 text-emerald-800">disponível <span className="ml-1 px-1.5 py-0.5 text-xs rounded bg-emerald-200">2</span></button>
-                        <button className="px-3 py-1 text-sm rounded-md bg-blue-100 text-blue-800">em limpeza <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-blue-200">1</span></button>
+                        <button className="px-3 py-1 text-sm rounded-md bg-blue-100 text-blue-800">em limpeza <span className="ml-1 px-1.5 py-0.5 text-xs rounded bg-blue-200">1</span></button>
                         <button className="px-3 py-1 text-sm rounded-md bg-slate-500 text-white">em pedidos <span className="ml-1 px-1.5 py-0.5 text-xs rounded bg-slate-400">5</span></button>
                         <button className="px-3 py-1 text-sm rounded-md bg-slate-600 text-white">hospedados <span className="ml-1 px-1.5 py-0.5 text-xs rounded bg-slate-500">5</span></button>
                         <button className="px-3 py-1 text-sm rounded-md bg-blue-500 text-white">extra hóspede <span className="ml-1 px-1.5 py-0.5 text-xs rounded bg-blue-400">1</span></button>
