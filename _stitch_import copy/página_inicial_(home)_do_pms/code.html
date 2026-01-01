@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Página Inicial (Home) do PMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#377dff",
+            "background-light": "#f1f5f9",
+            "background-dark": "#0f172a",
+          },
+          fontFamily: {
+            display: ["Roboto", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-screen">
+<aside class="w-64 bg-[#2c3e50] text-gray-300 flex flex-col">
+<div class="h-16 flex items-center justify-center border-b border-gray-700">
+<h1 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl">cottage</span>
+<span>Hospedin</span>
+</h1>
+</div>
+<nav class="flex-1 px-4 py-6 space-y-2">
+<p class="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">Menu Principal</p>
+<a class="flex items-center px-4 py-2 rounded bg-[#34495e] text-white" href="#">
+<span class="material-symbols-outlined mr-3">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">bar_chart</span>
+<span>Indicadores</span>
+</a>
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">map</span>
+<span>Mapa</span>
+</a>
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">book_online</span>
+<span>Reservas</span>
+</a>
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">groups</span>
+<span>Hóspedes</span>
+</a>
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">wb_sunny</span>
+<span>Day use</span>
+</a>
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">receipt_long</span>
+<span>Transações</span>
+</a>
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">help_outline</span>
+<span>Meu caixa</span>
+</a>
+</nav>
+<div class="p-4 border-t border-gray-700">
+<a class="flex items-center px-4 py-2 rounded hover:bg-[#34495e] hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span>Configurações</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col">
+<header class="h-16 flex items-center justify-between px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-4 text-slate-500 dark:text-slate-400">
+<button><span class="material-symbols-outlined">menu</span></button>
+<button><span class="material-symbols-outlined">apps</span></button>
+<button><span class="material-symbols-outlined">link</span></button>
+<button><span class="material-symbols-outlined">expand_more</span></button>
+<button><span class="material-symbols-outlined">cloud</span></button>
+<button><span class="material-symbols-outlined">search</span></button>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-600 flex items-center justify-center">
+<span class="text-slate-500 dark:text-slate-300 font-bold">MP</span>
+</div>
+<span class="text-slate-700 dark:text-slate-300">Minha Pousada</span>
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">expand_more</span>
+</div>
+</div>
+</header>
+<div class="flex-1 p-6 overflow-y-auto">
+<div class="flex flex-wrap items-center gap-2 mb-6">
+<button class="px-3 py-1 text-sm rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">todos <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-slate-300 dark:bg-slate-600">10</span></button>
+<button class="px-3 py-1 text-sm rounded-md bg-emerald-100 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200">disponível <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-emerald-200 dark:bg-emerald-700">2</span></button>
+<button class="px-3 py-1 text-sm rounded-md bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200">em limpeza <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-blue-200 dark:bg-blue-700">1</span></button>
+<button class="px-3 py-1 text-sm rounded-md bg-slate-500 text-white">em pedidos <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-slate-400">5</span></button>
+<button class="px-3 py-1 text-sm rounded-md bg-slate-600 text-white">hospedados <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-slate-500">5</span></button>
+<button class="px-3 py-1 text-sm rounded-md bg-blue-500 text-white">extra hóspede <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-blue-400">1</span></button>
+<button class="px-3 py-1 text-sm rounded-md bg-yellow-400 text-yellow-900">em mau uso <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-yellow-300">0</span></button>
+<button class="px-3 py-1 text-sm rounded-md bg-purple-500 text-white">vendidos <span class="ml-1 px-1.5 py-0.5 text-xs rounded bg-purple-400">2</span></button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-blue-600 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 1</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4">
+<div class="text-slate-700 dark:text-slate-300">
+<p class="text-sm">A: Caroline Silva</p>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="material-symbols-outlined text-base mr-2">calendar_today</span>
+<span>01/03/2019 - 05/03/2019</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<button class="flex items-center text-sm px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                  Reservar
+                </button>
+<button class="px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-red-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 2</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-2">
+<div class="text-slate-700 dark:text-slate-300">
+<p class="text-sm">A: Jaelson de Abreu</p>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="material-symbols-outlined text-base mr-2">calendar_today</span>
+<span>01/03/2019 - 05/03/2019</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-lg text-emerald-500">circle</span>
+<span class="material-symbols-outlined text-lg">list_alt</span>
+<span class="material-symbols-outlined text-lg">local_parking</span>
+<span class="material-symbols-outlined text-lg">person_add</span>
+</div>
+<button class="px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-teal-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 3</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4">
+<div class="text-slate-700 dark:text-slate-300">
+<p class="text-sm">A: JAEhandaC aurline</p>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="material-symbols-outlined text-base mr-2">calendar_today</span>
+<span>21/03/2019 - 05/03/2019</span>
+</div>
+</div>
+<button class="flex items-center text-sm w-full justify-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                Reservar
+              </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-red-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 4</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-2">
+<div class="text-slate-700 dark:text-slate-300">
+<p class="text-sm">A: JAEhandaC aurline</p>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="material-symbols-outlined text-base mr-2">calendar_today</span>
+<span>01/03/2019 - 05/03/2019</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-lg text-red-500">favorite</span>
+<span class="material-symbols-outlined text-lg">list_alt</span>
+<span class="material-symbols-outlined text-lg">local_parking</span>
+<span class="material-symbols-outlined text-lg">person_add</span>
+</div>
+<button class="px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-slate-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 5</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4">
+<div class="text-slate-700 dark:text-slate-300">
+<p class="text-sm">A: Jalelson de Abreu</p>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="material-symbols-outlined text-base mr-2">calendar_today</span>
+<span>01/03/2019 - 05/03/2019</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<button class="flex items-center text-sm px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                  Reservar
+                </button>
+<button class="px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-teal-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 6</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4 min-h-[128px] flex flex-col justify-end">
+<button class="flex items-center text-sm w-full justify-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                Reservar
+              </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-red-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 7</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-2">
+<div class="text-slate-700 dark:text-slate-300">
+<p class="text-sm">A: Virdhul Famarca de A...</p>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+<span class="material-symbols-outlined text-base mr-2">calendar_today</span>
+<span>01/03/2019 - 05/03/2019</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-lg text-red-500">favorite</span>
+<span class="material-symbols-outlined text-lg">list_alt</span>
+<span class="material-symbols-outlined text-lg">local_parking</span>
+<span class="material-symbols-outlined text-lg">person_add</span>
+</div>
+<button class="px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-teal-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 8</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4 min-h-[128px] flex flex-col justify-end">
+<button class="flex items-center text-sm w-full justify-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                Reservar
+              </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-slate-700 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 9</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4 min-h-[128px] flex flex-col justify-end">
+<button class="flex items-center text-sm w-full justify-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                Reservar
+              </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-teal-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 10</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4 min-h-[128px] flex flex-col justify-end">
+<button class="flex items-center text-sm w-full justify-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                Reservar
+              </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-teal-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 9</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4 min-h-[128px] flex flex-col justify-end">
+<button class="flex items-center text-sm w-full justify-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                Reservar
+              </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+<div class="bg-teal-500 p-3 flex justify-between items-center">
+<h3 class="font-bold text-white">QUARTO 10</h3>
+<span class="material-symbols-outlined text-white">remove</span>
+</div>
+<div class="p-4 space-y-4 min-h-[128px] flex flex-col justify-end">
+<button class="flex items-center text-sm w-full justify-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base mr-1">chevron_left</span>
+                Reservar
+              </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

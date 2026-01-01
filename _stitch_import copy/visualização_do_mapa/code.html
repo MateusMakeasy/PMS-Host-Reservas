@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mapa de Reservas (Padrão Unificado!)</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<style type="text/tailwindcss">
+    :root {
+      --sidebar-bg: #2C3E50;
+      --sidebar-text: #ABB2B9;
+      --sidebar-active-text: #3498DB;
+      --sidebar-active-bg: #212F3D;
+    }
+    </style>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "pms-blue": {
+              DEFAULT: "#1D4ED8", // blue-700
+              "light": "#3B82F6", // blue-500
+              "dark": "#1E3A8A", // blue-800
+              "extradark": "#1E40AF" // blue-800
+            },
+            "pms-blue-bg": "#EFF6FF", // blue-50
+            "pms-text-muted": "#64748B", // slate-500
+            "pms-border": "#E2E8F0", // slate-200
+            "pms-text-dark": "#334155", // slate-700
+            "pms-text-darker": "#1E293B", // slate-800
+          },
+          fontFamily: {
+            display: ["Lato", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-feature-settings: 'liga';
+    }
+    .timeline-grid {
+      grid-template-columns: repeat(15, minmax(0, 1fr));
+    }
+    .material-symbols-outlined.filled {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="font-display bg-gray-50 text-pms-text-dark">
+<div class="flex h-screen">
+<aside class="w-64 bg-[var(--sidebar-bg)] text-white flex flex-col">
+<div class="p-6">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-4xl text-[#F4D03F] filled" style="font-variation-settings: 'FILL' 1, 'wght' 400;">house</span>
+<span class="text-2xl font-bold text-white">Hospedin</span>
+</div>
+</div>
+<nav class="flex-1 px-4 py-2 space-y-1">
+<h3 class="px-4 pt-4 pb-2 text-xs font-bold uppercase text-white/80">Menu Principal</h3>
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">bar_chart</span>
+<span>Indicadores</span>
+</a>
+<a class="relative flex items-center px-4 py-2.5 text-[var(--sidebar-active-text)] bg-[var(--sidebar-active-bg)] rounded-lg font-bold" href="#">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[var(--sidebar-active-text)] rounded-r-full"></div>
+<span class="material-symbols-outlined mr-4">map</span>
+<span>Mapa</span>
+</a>
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">event_available</span>
+<span>Reservas</span>
+</a>
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">groups</span>
+<span>Hóspedes</span>
+</a>
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">wb_sunny</span>
+<span>Day Use</span>
+</a>
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">receipt_long</span>
+<span>Transações</span>
+</a>
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">payments</span>
+<span>Meu Caixa</span>
+</a>
+</nav>
+<div class="px-4 py-4">
+<a class="flex items-center px-4 py-2.5 text-[var(--sidebar-text)] hover:bg-[var(--sidebar-active-bg)] hover:text-white rounded-lg transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-4">settings</span>
+<span>Configurações</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col p-8 bg-white overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h1 class="text-3xl font-bold text-pms-text-darker">Mapa de Reservas</h1>
+<div class="flex items-center space-x-4">
+<div class="flex items-center bg-white p-1 rounded-md shadow-sm border border-pms-border">
+<button class="p-2 rounded hover:bg-gray-100">
+<span class="material-symbols-outlined text-pms-text-muted">chevron_left</span>
+</button>
+<span class="px-4 text-sm font-semibold whitespace-nowrap text-pms-text-dark">26/02 à 11/03</span>
+<button class="p-2 rounded hover:bg-gray-100">
+<span class="material-symbols-outlined text-pms-text-muted">chevron_right</span>
+</button>
+</div>
+<button class="bg-pms-blue hover:bg-pms-blue-dark text-white font-bold py-2.5 px-6 rounded-lg shadow transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'wght' 700;">add</span>
+<span>Nova Reserva</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col border border-pms-border rounded-lg overflow-hidden">
+<div class="overflow-auto flex-1">
+<div class="grid relative" style="grid-template-columns: 200px 1fr; min-width: 2000px;">
+<div class="sticky top-0 left-0 bg-gray-50 z-30 border-b-2 border-r border-pms-border p-4 flex items-center justify-center">
+<span class="font-bold text-pms-text-muted text-sm uppercase">Apartamentos</span>
+</div>
+<div class="sticky top-0 bg-gray-50 z-20 border-b-2 border-pms-border">
+<div class="grid timeline-grid h-full">
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">SEG</span><span class="block text-lg font-bold text-pms-text-dark">26</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">TER</span><span class="block text-lg font-bold text-pms-text-dark">27</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">QUA</span><span class="block text-lg font-bold text-pms-text-dark">28</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">QUI</span><span class="block text-lg font-bold text-pms-text-dark">29</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">SEX</span><span class="block text-lg font-bold text-pms-text-dark">01</span></div>
+<div class="text-center font-semibold text-red-500 py-2 border-r border-pms-border"><span class="text-xs">SÁB</span><span class="block text-lg font-bold">02</span></div>
+<div class="text-center font-semibold text-red-500 py-2 border-r border-pms-border"><span class="text-xs">DOM</span><span class="block text-lg font-bold">03</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">SEG</span><span class="block text-lg font-bold text-pms-text-dark">04</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">TER</span><span class="block text-lg font-bold text-pms-text-dark">05</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">QUA</span><span class="block text-lg font-bold text-pms-text-dark">06</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">QUI</span><span class="block text-lg font-bold text-pms-text-dark">07</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2 border-r border-pms-border"><span class="text-xs">SEX</span><span class="block text-lg font-bold text-pms-text-dark">08</span></div>
+<div class="text-center font-semibold text-red-500 py-2 border-r border-pms-border"><span class="text-xs">SÁB</span><span class="block text-lg font-bold">09</span></div>
+<div class="text-center font-semibold text-red-500 py-2 border-r border-pms-border"><span class="text-xs">DOM</span><span class="block text-lg font-bold">10</span></div>
+<div class="text-center font-semibold text-pms-text-muted py-2"><span class="text-xs">SEG</span><span class="block text-lg font-bold text-pms-text-dark">11</span></div>
+</div>
+</div>
+<div class="grid grid-cols-1 divide-y divide-pms-border sticky left-0 bg-white z-10 border-r border-pms-border">
+<div class="font-bold text-pms-text-muted p-3 h-14 flex items-center justify-center bg-gray-50/70 text-sm">STANDARD</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">101</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">102</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">103</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">104</div>
+<div class="font-bold text-pms-text-muted p-3 h-14 flex items-center justify-center bg-gray-50/70 text-sm">DUPLO</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">105</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">106</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">107</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">108</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">109</div>
+<div class="text-sm text-pms-text-dark p-3 h-14 flex items-center justify-center">110</div>
+</div>
+<div class="relative">
+<div class="grid timeline-grid h-full divide-x divide-pms-border">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+<div class="absolute inset-0 grid grid-cols-1 divide-y divide-pms-border">
+<div class="h-14"></div>
+<div class="h-14 relative">
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#F2F4F4] text-[#717D7E] border-l-4 border-[#7f8c8d] rounded-r" style="left: calc(3/15 * 100%); width: calc(2/15 * 100%);"><span class="truncate font-semibold">Bloqueado</span></div>
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#E9F7EF] text-[#1D8348] border-l-4 border-[#2ECC71] rounded-r" style="left: calc(8/15 * 100%); width: calc(3/15 * 100%);"><span class="truncate font-semibold">Check-in</span></div>
+</div>
+<div class="h-14 relative">
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#E8E8FB] text-[#8884d8] border-l-4 border-[#8884d8] rounded-r" style="left: calc(1/15 * 100%); width: calc(3/15 * 100%);"><span class="truncate font-semibold">Reserva</span></div>
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#EBF5FF] text-[#3498DB] border-l-4 border-[#3498DB] rounded-r" style="left: calc(6/15 * 100%); width: calc(2/15 * 100%);"><span class="truncate font-semibold">Pré-reserva</span></div>
+</div>
+<div class="h-14 relative"></div>
+<div class="h-14 relative">
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#E9F7EF] text-[#1D8348] border-l-4 border-[#2ECC71] rounded-r" style="left: calc(4/15 * 100%); width: calc(3/15 * 100%);"><span class="truncate font-semibold">Check-in</span></div>
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#F2F4F4] text-[#717D7E] border-l-4 border-[#7f8c8d] rounded-r" style="left: calc(9/15 * 100%); width: calc(1/15 * 100%);"><span class="truncate font-semibold">Bloqueado</span></div>
+</div>
+<div class="h-14"></div>
+<div class="h-14 relative">
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#FEF9E7] text-[#B7950B] border-l-4 border-[#F4D03F] rounded-r" style="left: calc(2/15 * 100%); width: calc(3/15 * 100%);"><span class="truncate font-semibold">Check-out</span></div>
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#E8E8FB] text-[#8884d8] border-l-4 border-[#8884d8] rounded-r" style="left: calc(7/15 * 100%); width: calc(4/15 * 100%);"><span class="truncate font-semibold">Reserva</span></div>
+</div>
+<div class="h-14 relative">
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#FDEDEC] text-[#943126] border-l-4 border-[#E74C3C] rounded-r" style="left: calc(2/15 * 100%); width: calc(1/15 * 100%);"><span class="truncate font-semibold">Limpeza</span></div>
+</div>
+<div class="h-14 relative"></div>
+<div class="h-14 relative">
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#E9F7EF] text-[#1D8348] border-l-4 border-[#2ECC71] rounded-r" style="left: calc(1/15 * 100%); width: calc(4/15 * 100%);"><span class="truncate font-semibold">Check-in</span></div>
+</div>
+<div class="h-14 relative"></div>
+<div class="h-14 relative">
+<div class="absolute inset-y-2.5 text-xs p-1.5 flex items-center overflow-hidden bg-[#EBF5FF] text-[#3498DB] border-l-4 border-[#3498DB] rounded-r" style="left: calc(9/15 * 100%); width: calc(3/15 * 100%);"><span class="truncate font-semibold">Pré-reserva</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 flex flex-wrap items-center justify-start gap-x-6 gap-y-2 text-sm text-pms-text-muted">
+<div class="flex items-center"><span class="w-4 h-4 rounded-sm bg-[#3498DB] mr-2"></span><span>Pré-reserva</span></div>
+<div class="flex items-center"><span class="w-4 h-4 rounded-sm bg-[#8884d8] mr-2"></span><span>Reserva</span></div>
+<div class="flex items-center"><span class="w-4 h-4 rounded-sm bg-[#2ECC71] mr-2"></span><span>Check-in</span></div>
+<div class="flex items-center"><span class="w-4 h-4 rounded-sm bg-[#F4D03F] mr-2"></span><span>Check-out</span></div>
+<div class="flex items-center"><span class="w-4 h-4 rounded-sm bg-[#E74C3C] mr-2"></span><span>Limpeza</span></div>
+<div class="flex items-center"><span class="w-4 h-4 rounded-sm bg-[#7f8c8d] mr-2"></span><span>Bloqueado</span></div>
+</div>
+</main>
+</div>
+
+</body></html>

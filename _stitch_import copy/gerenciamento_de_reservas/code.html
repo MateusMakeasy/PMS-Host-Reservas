@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gerenciamento de Reservas</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<style type="text/tailwindcss">
+    :root {
+      --sidebar-bg: #2C3E50;
+      --sidebar-hover-bg: #34495E;
+      --sidebar-active-bg: #34495E;
+      --sidebar-text: #ECF0F1;
+      --sidebar-active-text: #FFFFFF;
+      --sidebar-active-border: #3498DB;
+      --main-bg: #34495E;
+      --content-bg: #2C3E50;
+      --text-primary: #ECF0F1;
+      --text-secondary: #BDC3C7;
+      --border-color: #34495E;
+      --button-bg: #3498DB;
+      --button-text: #FFFFFF;
+      --input-bg: #34495E;
+    }
+  </style>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3498DB",
+            'sidebar-bg': 'var(--sidebar-bg)',
+            'sidebar-hover-bg': 'var(--sidebar-hover-bg)',
+            'sidebar-active-bg': 'var(--sidebar-active-bg)',
+            'sidebar-text': 'var(--sidebar-text)',
+            'sidebar-active-text': 'var(--sidebar-active-text)',
+            'sidebar-active-border': 'var(--sidebar-active-border)',
+            'main-bg': 'var(--main-bg)',
+            'content-bg': 'var(--content-bg)',
+            'text-primary': 'var(--text-primary)',
+            'text-secondary': 'var(--text-secondary)',
+            'border-color': 'var(--border-color)',
+            'button-bg': 'var(--button-bg)',
+            'button-text': 'var(--button-text)',
+            'input-bg': 'var(--input-bg)',
+          },
+          fontFamily: {
+            display: ["Roboto", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-display bg-gray-100 text-gray-800">
+<div class="flex h-screen">
+<aside class="w-64 bg-[#2C3E50] flex flex-col">
+<div class="p-6 flex items-center space-x-3">
+<span class="material-symbols-outlined text-yellow-400 text-4xl" style="fill: 1;">cottage</span>
+<h1 class="text-2xl font-bold text-white">Hospedin</h1>
+</div>
+<nav class="mt-4 flex-1 px-4 space-y-2">
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">home</span>
+          Home
+        </a>
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">bar_chart</span>
+          Indicadores
+        </a>
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">map</span>
+          Mapa
+        </a>
+<a class="flex items-center p-3 rounded-md bg-[#34495E] text-white font-semibold border-l-4 border-[#3498DB]" href="#">
+<span class="material-symbols-outlined mr-4">calendar_today</span>
+          Reservas
+        </a>
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">group</span>
+          Hóspedes
+        </a>
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">wb_sunny</span>
+          Day Use
+        </a>
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">receipt_long</span>
+          Transações
+        </a>
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">point_of_sale</span>
+          Meu Caixa
+        </a>
+</nav>
+<div class="p-4">
+<a class="flex items-center p-3 rounded-md text-[#BDC3C7] hover:bg-[#34495E] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mr-4">settings</span>
+        Configurações
+      </a>
+</div>
+</aside>
+<main class="flex-1 p-8 overflow-y-auto bg-white">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-3xl font-bold text-gray-800">Gerenciamento de Reservas</h2>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-primary focus:border-primary" placeholder="Buscar hóspede ou quarto..." type="text"/>
+</div>
+<button class="bg-[#3498DB] text-white font-medium py-2 px-4 rounded-lg flex items-center shadow-md hover:bg-opacity-90 transition-colors">
+<span class="material-symbols-outlined mr-2">add</span>
+            Nova Reserva
+        </button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b-2 border-gray-200">
+<tr>
+<th class="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Hóspede</th>
+<th class="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Quarto</th>
+<th class="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Check-in</th>
+<th class="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Check-out</th>
+<th class="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Status</th>
+<th class="p-4 font-medium text-sm text-gray-500 uppercase tracking-wider">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200">
+<tr>
+<td class="p-4 text-gray-900">João Silva</td>
+<td class="p-4 text-gray-500">101</td>
+<td class="p-4 text-gray-500">2024-08-01</td>
+<td class="p-4 text-gray-500">2024-08-05</td>
+<td class="p-4">
+<span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Confirmada</span>
+</td>
+<td class="p-4">
+<div class="flex space-x-2">
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-gray-500 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 text-gray-900">Maria Oliveira</td>
+<td class="p-4 text-gray-500">205</td>
+<td class="p-4 text-gray-500">2024-08-03</td>
+<td class="p-4 text-gray-500">2024-08-07</td>
+<td class="p-4">
+<span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Checked-in</span>
+</td>
+<td class="p-4">
+<div class="flex space-x-2">
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-gray-500 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 text-gray-900">Carlos Pereira</td>
+<td class="p-4 text-gray-500">302</td>
+<td class="p-4 text-gray-500">2024-08-04</td>
+<td class="p-4 text-gray-500">2024-08-10</td>
+<td class="p-4">
+<span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Pendente</span>
+</td>
+<td class="p-4">
+<div class="flex space-x-2">
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-gray-500 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 text-gray-900">Ana Souza</td>
+<td class="p-4 text-gray-500">103</td>
+<td class="p-4 text-gray-500">2024-07-28</td>
+<td class="p-4 text-gray-500">2024-08-02</td>
+<td class="p-4">
+<span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Checked-out</span>
+</td>
+<td class="p-4">
+<div class="flex space-x-2">
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-gray-500 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 text-gray-900">Pedro Costa</td>
+<td class="p-4 text-gray-500">401</td>
+<td class="p-4 text-gray-500">2024-08-15</td>
+<td class="p-4 text-gray-500">2024-08-20</td>
+<td class="p-4">
+<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Cancelada</span>
+</td>
+<td class="p-4">
+<div class="flex space-x-2">
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-gray-500 hover:text-gray-700 transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-gray-500 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 flex justify-between items-center border-t border-gray-200 text-sm text-gray-500">
+<span>Mostrando 1-5 de 50 resultados</span>
+<div class="flex items-center space-x-2">
+<button class="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-base">chevron_left</span></button>
+<button class="px-3 py-1 rounded-lg bg-primary text-white">1</button>
+<button class="px-3 py-1 rounded-lg hover:bg-gray-100">2</button>
+<button class="px-3 py-1 rounded-lg hover:bg-gray-100">3</button>
+<span>...</span>
+<button class="px-3 py-1 rounded-lg hover:bg-gray-100">10</button>
+<button class="p-2 rounded-lg hover:bg-gray-100"><span class="material-symbols-outlined text-base">chevron_right</span></button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
