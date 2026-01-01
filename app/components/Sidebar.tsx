@@ -28,7 +28,7 @@ export default function Sidebar() {
                     <span className="font-medium">Home</span>
                 </Link>
 
-                <Link href="/inicio" className={`sidebar-link ${isActive('/indicadores')}`}>
+                <Link href="/indicadores" className={`sidebar-link ${isActive('/indicadores')}`}>
                     <span className="material-symbols-outlined mr-3">bar_chart</span>
                     <span className="font-medium">Indicadores</span>
                 </Link>
