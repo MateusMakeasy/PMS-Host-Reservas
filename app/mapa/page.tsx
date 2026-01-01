@@ -437,7 +437,7 @@ export default function MapaPage() {
                                                             >
                                                                 <div className="flex flex-col justify-center h-full leading-tight pointer-events-none">
                                                                     <span className="truncate">{res.guestName}</span>
-                                                                    {(parseInt(pos.width) > 50 || draggingRes === res.id) && <span className="text-[9px] font-normal opacity-90 truncate">{res.status}</span>}
+                                                                    {(parseInt(pos.width || '0') > 50 || draggingRes === res.id) && <span className="text-[9px] font-normal opacity-90 truncate">{res.status}</span>}
                                                                 </div>
                                                             </div>
                                                         );
