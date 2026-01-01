@@ -64,7 +64,7 @@ export default function ReservasPage() {
                                         <div className="flex space-x-2">
                                             <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">visibility</span></button>
                                             <button className="text-gray-500 hover:text-gray-700 transition-colors"><span className="material-symbols-outlined">edit</span></button>
-                                            <button className="text-gray-500 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+                                            <button className="text-gray-500 hover:text-red-500 transition-colors"><span className="material-symbols-outlined">delete</span></button>
                                         </div>
                                     </td>
                                 </tr>

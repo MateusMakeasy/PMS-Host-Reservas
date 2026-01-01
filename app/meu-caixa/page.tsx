@@ -118,7 +118,7 @@ export default function MeuCaixaPage() {
                                     <tr>
                                         <td className="px-6 py-4 whitespace-nowrap font-medium text-slate-800">Sangria de Caixa</td>
                                         <td className="px-6 py-4">
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Saída</span>
+                                            <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Saída</span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-slate-600">18/05/2024 18:00</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right font-medium text-red-600">- R$ 500,00</td>
