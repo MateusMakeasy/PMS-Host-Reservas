@@ -106,8 +106,7 @@ export default function MapaPage() {
 
     // Drag State
     const [draggingRes, setDraggingRes] = useState<string | null>(null);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 }); // Mouse offset relative to element
-    const [dragCurrent, setDragCurrent] = useState({ x: 0, y: 0 }); // Current mouse screen pos
+    const [dragCurrent, setDragCurrent] = useState({ x: 0, y: 0 });
 
     // Refs
     const gridRef = useRef<HTMLDivElement>(null);
@@ -137,17 +136,11 @@ export default function MapaPage() {
     const handleToday = () => setCurrentDate(new Date());
 
     const handleMouseDown = (e: React.MouseEvent, res: Reservation) => {
-        if (e.button !== 0) return; // Only Main Button
-        e.stopPropagation(); // Prevent opening modal
+        if (e.button !== 0) return;
+        e.stopPropagation();
         e.preventDefault();
 
         setDraggingRes(res.id);
-        const rect = e.currentTarget.getBoundingClientRect();
-
-        setDragOffset({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        });
         setDragCurrent({ x: e.clientX, y: e.clientY });
 
         dragRef.current = {
@@ -162,62 +155,74 @@ export default function MapaPage() {
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (draggingRes) {
-                setDragCurrent({ x: e.clientX, y: e.clientY });
+                requestAnimationFrame(() => {
+                    setDragCurrent({ x: e.clientX, y: e.clientY });
+                });
             }
         };
 
         const handleMouseUp = (e: MouseEvent) => {
             if (draggingRes && dragRef.current) {
-                const deltaX = e.clientX - dragRef.current.initialX;
-                const deltaY = e.clientY - dragRef.current.initialY;
+                try {
+                    const deltaX = e.clientX - dragRef.current.initialX;
+                    const deltaY = e.clientY - dragRef.current.initialY;
 
-                // Simple threshold to prevent micro-moves interpreting as drags
-                if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) {
+                    if (Math.abs(deltaX) < 5 && Math.abs(deltaY) < 5) {
+                        setDraggingRes(null);
+                        dragRef.current = null;
+                        return;
+                    }
+
+                    const dayDiff = Math.round(deltaX / CELL_WIDTH);
+                    const rowDiff = Math.round(deltaY / ROW_HEIGHT);
+
+                    if (dayDiff !== 0 || rowDiff !== 0) {
+                        setReservations(prev => prev.map(r => {
+                            if (r.id === draggingRes) {
+                                // Date Math Safe
+                                const safeStartCheckIn = new Date(dragRef.current!.startCheckIn);
+                                if (isNaN(safeStartCheckIn.getTime())) return r; // Guard
+
+                                const newStart = addDays(safeStartCheckIn, dayDiff);
+                                const oldStart = new Date(r.checkIn);
+                                const oldEnd = new Date(r.checkOut);
+
+                                let duration = 1;
+                                if (!isNaN(oldStart.getTime()) && !isNaN(oldEnd.getTime())) {
+                                    duration = Math.ceil((oldEnd.getTime() - oldStart.getTime()) / (1000 * 60 * 60 * 24));
+                                }
+
+                                const newEnd = addDays(newStart, duration);
+
+                                // Room Math Safe
+                                if (!flatRooms || flatRooms.length === 0) return r;
+
+                                const currentRoomIndex = flatRooms.findIndex(room => room.id === dragRef.current!.startRoomId);
+                                let newRoomId = r.roomId;
+
+                                if (currentRoomIndex !== -1) {
+                                    const newIndex = Math.max(0, Math.min(flatRooms.length - 1, currentRoomIndex + rowDiff));
+                                    if (flatRooms[newIndex]) {
+                                        newRoomId = flatRooms[newIndex].id;
+                                    }
+                                }
+
+                                return {
+                                    ...r,
+                                    checkIn: formatDate(newStart),
+                                    checkOut: formatDate(newEnd),
+                                    roomId: newRoomId
+                                };
+                            }
+                            return r;
+                        }));
+                    }
+                } catch (error) {
+                    console.error("Error confirming drag:", error);
+                } finally {
                     setDraggingRes(null);
                     dragRef.current = null;
-                    return;
                 }
-
-                const dayDiff = Math.round(deltaX / CELL_WIDTH);
-                const rowDiff = Math.round(deltaY / ROW_HEIGHT);
-
-                // Apply changes
-                if (dayDiff !== 0 || rowDiff !== 0) {
-                    setReservations(prev => prev.map(r => {
-                        if (r.id === draggingRes) {
-                            // Update dates
-                            const newStart = addDays(dragRef.current!.startCheckIn, dayDiff);
-                            const oldStart = new Date(r.checkIn);
-                            const oldEnd = new Date(r.checkOut);
-                            const duration = (oldEnd.getTime() - oldStart.getTime()) / (1000 * 60 * 60 * 24);
-                            const newEnd = addDays(newStart, duration);
-
-                            // Update Room
-                            // Ensure flatRooms is available and has items
-                            if (!flatRooms || flatRooms.length === 0) return r;
-
-                            const currentRoomIndex = flatRooms.findIndex(room => room.id === dragRef.current!.startRoomId);
-                            let newRoomId = r.roomId;
-                            if (currentRoomIndex !== -1) {
-                                const newIndex = Math.max(0, Math.min(flatRooms.length - 1, currentRoomIndex + rowDiff));
-                                if (flatRooms[newIndex]) {
-                                    newRoomId = flatRooms[newIndex].id;
-                                }
-                            }
-
-                            return {
-                                ...r,
-                                checkIn: formatDate(newStart),
-                                checkOut: formatDate(newEnd),
-                                roomId: newRoomId
-                            };
-                        }
-                        return r;
-                    }));
-                }
-
-                setDraggingRes(null);
-                dragRef.current = null;
             }
         };
 
@@ -244,7 +249,6 @@ export default function MapaPage() {
 
     const handleReservationClick = (e: React.MouseEvent, res: Reservation) => {
         e.stopPropagation();
-        // Prevent click if we just finished dragging (drag check handled in mouseup/down logic mostly, but simple state check helps)
         if (!draggingRes) {
             setSelectedRes(res);
             setIsEditing(false);
@@ -260,18 +264,36 @@ export default function MapaPage() {
         }
     };
 
+    const handlePlaceholderAction = (actionName: string) => {
+        alert(`Funcionalidade "${actionName}" será implementada em breve!`);
+    };
+
     const getReservationStyle = (res: Reservation) => {
-        const startDate = new Date(currentDate.toISOString().split('T')[0]);
+        const timelineStart = new Date(currentDate.toISOString().split('T')[0]);
         const checkIn = new Date(res.checkIn);
         const checkOut = new Date(res.checkOut);
 
-        const diffTime = checkIn.getTime() - startDate.getTime();
+        // Validation for Invalid Dates
+        if (isNaN(checkIn.getTime()) || isNaN(checkOut.getTime())) return { display: 'none' };
+
+        // 1. Calculate Real Position relative to timeline start
+        const diffTime = checkIn.getTime() - timelineStart.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
         const durationTime = checkOut.getTime() - checkIn.getTime();
         const durationDays = Math.ceil(durationTime / (1000 * 60 * 60 * 24));
 
-        const left = diffDays * CELL_WIDTH;
-        const width = durationDays * CELL_WIDTH;
+        let left = diffDays * CELL_WIDTH;
+        let width = durationDays * CELL_WIDTH;
+
+        // 2. Clamp for Visual Rendering (handle negative left)
+        if (left < 0) {
+            width += left; // Reduce width by the amount that is off-screen
+            left = 0;      // Snap to start
+        }
+
+        // If completely off-screen to the left
+        if (width <= 0) return { display: 'none' };
 
         let transform = 'none';
         let zIndex = 10;
@@ -287,8 +309,13 @@ export default function MapaPage() {
             boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
         }
 
-        return { left: `${left}px`, width: `${width}px`, transform, zIndex, opacity, boxShadow };
+        return { left: `${left}px`, width: `${width}px`, transform, zIndex, opacity, boxShadow, display: 'block' };
     };
+
+    // Calculate Z-Index for sticky columns to ensure they stay ON TOP of reservations
+    // Sticky Header: z-30
+    // Sticky Sidebar: z-40
+    // Reservation: z-10 (normal), z-50 (drag)
 
     return (
         <div className="bg-slate-50 min-h-screen flex font-sans text-slate-600">
@@ -333,11 +360,11 @@ export default function MapaPage() {
                         <div style={{ minWidth: `${200 + (daysToShow * CELL_WIDTH)}px` }} className="relative">
 
                             {/* --- Grid Header --- */}
-                            <div className="sticky top-0 z-10 flex border-b border-slate-200 bg-slate-50 shadow-sm h-[60px]">
-                                <div className="sticky left-0 w-[200px] flex-shrink-0 bg-slate-100 border-r border-slate-200 flex items-center justify-center z-20">
+                            <div className="sticky top-0 z-30 flex border-b border-slate-200 bg-slate-50 shadow-sm h-[60px]">
+                                <div className="sticky left-0 w-[200px] flex-shrink-0 bg-slate-100 border-r border-slate-200 flex items-center justify-center z-40 shadow-[4px_0_10px_-4px_rgba(0,0,0,0.1)]">
                                     <span className="text-xs font-bold text-slate-500 uppercase">Acomodações / Datas</span>
                                 </div>
-                                <div className="flex">
+                                <div className="flex z-20">
                                     {timelineDates.map((date, i) => {
                                         const isWeekend = date.getDay() === 0 || date.getDay() === 6;
                                         const isToday = formatDate(date) === formatDate(new Date());
@@ -371,27 +398,25 @@ export default function MapaPage() {
                                 {/* Rows */}
                                 {Object.entries(roomsByType).map(([type, rooms]) => (
                                     <React.Fragment key={type}>
-                                        <div className="sticky left-0 z-10 bg-slate-100/90 backdrop-blur-sm border-y border-slate-200 px-4 py-1 text-[10px] font-bold uppercase text-slate-500 tracking-wider">
+                                        <div className="sticky left-0 z-30 bg-slate-100/95 backdrop-blur-sm border-y border-slate-200 px-4 py-1 text-[10px] font-bold uppercase text-slate-500 tracking-wider shadow-[4px_0_10px_-4px_rgba(0,0,0,0.05)]">
                                             {type}
                                         </div>
 
                                         {rooms.map(room => (
                                             <div key={room.id} className="relative h-14 border-b border-slate-100/50 hover:bg-blue-50/10 transition-colors group flex">
-                                                {/* Left Room Column */}
-                                                <div className="sticky left-0 w-[200px] flex-shrink-0 bg-white border-r border-slate-200 flex items-center justify-between px-4 z-10 group-hover:bg-slate-50 transition-colors">
+                                                {/* Left Room Column (Sticky) */}
+                                                <div className="sticky left-0 w-[200px] flex-shrink-0 bg-white border-r border-slate-200 flex items-center justify-between px-4 z-40 group-hover:bg-slate-50 transition-colors shadow-[4px_0_10px_-4px_rgba(0,0,0,0.1)]">
                                                     <span className="font-bold text-slate-700 text-sm">{room.name}</span>
                                                     <button className="text-slate-300 hover:text-slate-500"><span className="material-symbols-outlined text-sm">more_vert</span></button>
                                                 </div>
 
                                                 {/* Reservations Container */}
-                                                <div className="relative flex-1 h-full">
+                                                <div className="relative flex-1 h-full z-10">
                                                     {reservations.filter(r => r.roomId === room.id).map(res => {
                                                         const pos = getReservationStyle(res);
-                                                        const colors = getStatusColor(res.status);
+                                                        if (pos.display === 'none') return null;
 
-                                                        const resEnd = new Date(res.checkOut);
-                                                        const timelineStart = timelineDates[0];
-                                                        if (resEnd < timelineStart) return null;
+                                                        const colors = getStatusColor(res.status);
 
                                                         return (
                                                             <div
@@ -579,7 +604,9 @@ export default function MapaPage() {
                                             <button onClick={() => setIsEditing(true)} className="flex-1 bg-brand-teal text-white py-2 rounded-lg font-bold hover:bg-teal-600 transition-colors">
                                                 Editar Reserva
                                             </button>
-                                            <button className="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 font-medium hover:bg-slate-50 transition-colors" title="Mais opções">
+                                            <button
+                                                onClick={() => handlePlaceholderAction('Mais opções')}
+                                                className="px-4 py-2 border border-slate-200 rounded-lg text-slate-600 font-medium hover:bg-slate-50 transition-colors" title="Mais opções">
                                                 <span className="material-symbols-outlined">more_horiz</span>
                                             </button>
                                         </div>
@@ -589,9 +616,9 @@ export default function MapaPage() {
 
                             {/* Popup Footer Links */}
                             <div className="bg-slate-50 p-3 border-t border-slate-200 grid grid-cols-3 divide-x divide-slate-200 text-center">
-                                <button className="text-xs font-semibold text-blue-500 hover:text-blue-700">Fichas</button>
-                                <button className="text-xs font-semibold text-blue-500 hover:text-blue-700">Financeiro</button>
-                                <button className="text-xs font-semibold text-blue-500 hover:text-blue-700">Histórico</button>
+                                <button onClick={() => handlePlaceholderAction('Fichas')} className="text-xs font-semibold text-blue-500 hover:text-blue-700">Fichas</button>
+                                <button onClick={() => handlePlaceholderAction('Financeiro')} className="text-xs font-semibold text-blue-500 hover:text-blue-700">Financeiro</button>
+                                <button onClick={() => handlePlaceholderAction('Histórico')} className="text-xs font-semibold text-blue-500 hover:text-blue-700">Histórico</button>
                             </div>
                         </div>
                     </div>
